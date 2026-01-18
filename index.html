@@ -57,13 +57,20 @@
                 if (window.DDOSEngine.authenticate(username, password)) {
                     statusLed.className = 'status-led active';
                     loginStatus.textContent = 'Access granted. Redirecting...';
-                    window.location.href = 'system.html';
+                    // Redirect setelah delay singkat
+                    setTimeout(() => {
+                        window.location.href = 'system.html';
+                    }, 1000);
                 } else {
                     statusLed.className = 'status-led error';
                     loginStatus.textContent = 'ERROR: Invalid credentials or expired account.';
                 }
             }, 1500);
         });
+        
+        // Auto-login untuk testing (gunakan di console browser)
+        // DDOSEngine.authenticate('DinoD', 'DinoProtocol');
+        // window.location.href = 'system.html';
     </script>
 </body>
 </html>
