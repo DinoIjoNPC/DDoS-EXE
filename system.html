@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DDoS-EXE Protocol :: Main System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    
+    <nav class="sidebar">
+        <div class="logo">
+            <i class="fas fa-brain"></i>
+            <span>OXYLUS_PROTOCOL</span>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-menu" id="navMenu">
+            <li class="active" data-section="ddos"><i class="fas fa-bolt"></i> DDoS Attack</li>
+            <li data-section="ngl"><i class="fas fa-comment-dots"></i> NGL Spam</li>
+            <li data-section="scanner"><i class="fas fa-search"></i> Scanner IP</li>
+            <li data-section="dev" class="restricted" data-restricted="developer"><i class="fas fa-code"></i> Developer Panel</li>
+            <li data-section="profile"><i class="fas fa-user"></i> Profile</li>
+        </ul>
+        <div class="system-stats">
+            <div class="stat">
+                <span>MODE</span>
+                <div class="stat-value active">REAL</div>
+            </div>
+            <div class="stat">
+                <span>ACCOUNT</span>
+                <div class="stat-value" id="accountTypeBadge">Loading...</div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="content">
+        <header class="content-header">
+            <div class="header-left">
+                <h1><i class="fas fa-skull-crossbones"></i> DDoS-EXE PROTOCOL</h1>
+                <div class="breadcrumb" id="breadcrumb">/ DDoS Attack</div>
+            </div>
+            <div class="header-right">
+                <div class="user-info" id="userInfoDisplay">
+                    <i class="fas fa-user-ninja"></i>
+                    <span id="usernameDisplay">Loading...</span>
+                </div>
+                <button class="hacker-btn small" id="logoutBtn">
+                    <i class="fas fa-power-off"></i> LOGOUT
+                </button>
+            </div>
+        </header>
+
+        <div class="section-container">
+            <!-- DDoS Attack Section -->
+            <section id="ddosSection" class="section active">
+                <div class="terminal-header">
+                    <i class="fas fa-terminal"></i> DDoS ATTACK CONTROLLER [REAL MODE]
+                    <span id="attackLimitBadge" class="limit-badge"></span>
+                </div>
+                <div class="real-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>REAL ATTACK MODE:</strong> This will send actual HTTP/WebSocket requests to target
+                </div>
+                <div class="attack-controls">
+                    <div class="control-group">
+                        <label><i class="fas fa-globe"></i> TARGET</label>
+                        <input type="text" id="targetInput" placeholder="example.com or 192.168.1.1" required>
+                    </div>
+                    <div class="control-group">
+                        <label><i class="fas fa-network-wired"></i> PORT</label>
+                        <input type="number" id="portInput" value="80" min="1" max="65535">
+                    </div>
+                    <div class="control-group">
+                        <label><i class="fas fa-layer-group"></i> ATTACK TYPE</label>
+                        <select id="attackTypeSelect">
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                        <div class="type-info">
+                            Available for: <span id="availableTypes">Checking...</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label><i class="fas fa-clock"></i> DURATION (Seconds)</label>
+                        <input type="number" id="durationInput" value="60" min="10" max="3600">
+                        <div class="duration-info">
+                            Max duration: <span id="maxDuration">Loading...</span> seconds
+                        </div>
+                    </div>
+                    <div class="attack-buttons">
+                        <button class="hacker-btn attack-btn" id="startAttack">
+                            <i class="fas fa-play"></i> LAUNCH REAL ATTACK
+                        </button>
+                        <button class="hacker-btn stop-btn" id="stopAttack" disabled>
+                            <i class="fas fa-stop"></i> STOP ATTACK
+                        </button>
+                    </div>
+                </div>
+                <div class="terminal-output" id="ddosTerminal">
+                    <div class="terminal-line">[SYSTEM] DDoS Controller v3.14 - REAL MODE ACTIVATED</div>
+                    <div class="terminal-line">[WARNING] All attacks send actual network traffic</div>
+                    <div class="terminal-line">[INFO] Your access level: <span id="accessLevelDisplay">Loading...</span></div>
+                </div>
+            </section>
+
+            <!-- NGL Spam Section -->
+            <section id="nglSection" class="section">
+                <div class="terminal-header">
+                    <i class="fas fa-comment-dots"></i> NGL SPAM BOT [REAL MODE]
+                </div>
+                <div class="real-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>REAL SPAM MODE:</strong> This will send actual requests to ngl.link API
+                </div>
+                <div class="control-group">
+                    <label><i class="fas fa-link"></i> NGL.LINK USERNAME</label>
+                    <input type="text" id="nglUsername" placeholder="username (without ngl.link/)" required>
+                </div>
+                <div class="control-group">
+                    <label><i class="fas fa-envelope"></i> MESSAGE</label>
+                    <textarea id="nglMessage" placeholder="Enter anonymous message..." required rows="3"></textarea>
+                </div>
+                <div class="control-group">
+                    <label><i class="fas fa-bomb"></i> TOTAL SPAM COUNT</label>
+                    <input type="number" id="spamCount" value="100" min="1" max="5000">
+                </div>
+                <div class="control-group">
+                    <label><i class="fas fa-tachometer-alt"></i> DELAY (ms between requests)</label>
+                    <input type="number" id="spamDelay" value="100" min="50" max="5000">
+                </div>
+                <div class="control-group">
+                    <label><i class="fas fa-user-secret"></i> SENDER NAME (Optional)</label>
+                    <input type="text" id="senderName" placeholder="Anonymous">
+                </div>
+                <button class="hacker-btn attack-btn" id="startSpam">
+                    <i class="fas fa-paper-plane"></i> SEND REAL SPAM
+                </button>
+                <div class="terminal-output" id="nglTerminal">
+                    <div class="terminal-line">[SYSTEM] NGL Spam Bot - REAL MODE</div>
+                    <div class="terminal-line">[INFO] Will make actual POST requests to ngl.link API</div>
+                </div>
+            </section>
+
+            <!-- IP Scanner Section -->
+            <section id="scannerSection" class="section">
+                <div class="terminal-header">
+                    <i class="fas fa-search"></i> IP SCANNER [REAL MODE]
+                </div>
+                <div class="real-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>REAL SCAN MODE:</strong> This will probe actual network ports
+                </div>
+                <div class="control-group">
+                    <label><i class="fas fa-bullseye"></i> TARGET IP/HOSTNAME</label>
+                    <input type="text" id="scanTarget" placeholder="example.com or 192.168.1.1" required>
+                </div>
+                <div class="control-group">
+                    <label><i class="fas fa-list-ol"></i> PORTS TO SCAN</label>
+                    <input type="text" id="portsToScan" value="80,443,8080,22,21,25,53,110,143,3306,3389,5900,6379,27017">
+                </div>
+                <div class="control-group">
+                    <label><i class="fas fa-users"></i> TIMEOUT (ms)</label>
+                    <input type="number" id="scanTimeout" value="2000" min="500" max="10000">
+                </div>
+                <button class="hacker-btn attack-btn" id="startScan">
+                    <i class="fas fa-radar"></i> START REAL SCAN
+                </button>
+                <div class="scan-results">
+                    <div class="results-header">
+                        <span>PORT</span>
+                        <span>STATUS</span>
+                        <span>SERVICE</span>
+                        <span>RESPONSE TIME</span>
+                    </div>
+                    <div class="results-body" id="scanResults">
+                        <div class="scan-result">
+                            <span>No scan performed yet</span>
+                            <span>-</span>
+                            <span>-</span>
+                            <span>-</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Developer Panel Section -->
+            <section id="devSection" class="section">
+                <div class="terminal-header">
+                    <i class="fas fa-code"></i> DEVELOPER CONTROL PANEL
+                    <span id="devAccessStatus" class="access-status"></span>
+                </div>
+                
+                <div id="devPanelContent">
+                    <!-- Content will be shown/hidden based on permissions -->
+                </div>
+                
+                <div id="devAccessMessage" style="display: none;">
+                    <div class="access-denied">
+                        <i class="fas fa-lock fa-3x"></i>
+                        <h3>DEVELOPER ACCESS REQUIRED</h3>
+                        <p>This panel is only available for Developer accounts.</p>
+                        <p>Your account type: <strong id="currentAccountType">Guest</strong></p>
+                        <div class="upgrade-info">
+                            <p><i class="fas fa-info-circle"></i> Contact system administrator for upgrade to Developer account.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profileSection" class="section">
+                <div class="terminal-header">
+                    <i class="fas fa-user"></i> USER PROFILE
+                </div>
+                <div class="profile-info">
+                    <div class="profile-item">
+                        <span class="profile-label">USERNAME</span>
+                        <span class="profile-value" id="profileUsername">-</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label">ACCOUNT TYPE</span>
+                        <span class="profile-value" id="profileType">-</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label">ACCOUNT CREATED</span>
+                        <span class="profile-value" id="profileCreated">-</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label">EXPIRATION TIME</span>
+                        <span class="profile-value" id="profileExpires">-</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label">TIME REMAINING</span>
+                        <span class="profile-value countdown" id="profileRemaining">-</span>
+                    </div>
+                    <div class="profile-item">
+                        <span class="profile-label">PERMISSIONS</span>
+                        <span class="profile-value" id="profilePermissions">-</span>
+                    </div>
+                </div>
+                
+                <div class="password-change">
+                    <h3><i class="fas fa-key"></i> CHANGE PASSWORD</h3>
+                    <div class="control-group">
+                        <label>CURRENT PASSWORD</label>
+                        <input type="password" id="currentPass">
+                    </div>
+                    <div class="control-group">
+                        <label>NEW PASSWORD</label>
+                        <input type="password" id="newPass">
+                    </div>
+                    <div class="control-group">
+                        <label>CONFIRM NEW PASSWORD</label>
+                        <input type="password" id="confirmPass">
+                    </div>
+                    <button class="hacker-btn" id="changePassBtn">
+                        <i class="fas fa-sync"></i> UPDATE PASSWORD
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <footer class="global-terminal">
+            <div class="term-header">
+                <i class="fas fa-terminal"></i> SYSTEM LOG
+                <span class="term-controls">
+                    <button class="clean-btn" id="clearLog"><i class="fas fa-trash"></i> CLEAR</button>
+                </span>
+            </div>
+            <div class="term-body" id="globalLog">
+                <div class="log-entry">[SYSTEM] DDoS-EXE Protocol v3.0 REAL MODE</div>
+                <div class="log-entry">[AUTH] Session initialized</div>
+            </div>
+        </footer>
+    </main>
+
+    <script src="ddos-engine.js"></script>
+    <script>
+        // Main system controller
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DDoS-EXE System Loaded');
+            
+            // Check authentication
+            if (!sessionStorage.getItem('ddos_user')) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Load user data and permissions
+            loadUserData();
+            
+            // Setup navigation with permissions
+            setupNavigation();
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Update system status
+            setInterval(updateSystemStatus, 5000);
+        });
+        
+        function loadUserData() {
+            const user = DDOSEngine.getCurrentUser();
+            if (user) {
+                // Update UI
+                document.getElementById('usernameDisplay').textContent = user.username + ' [' + user.type.toUpperCase() + ']';
+                document.getElementById('accessLevelDisplay').textContent = user.type.toUpperCase();
+                document.getElementById('profileUsername').textContent = user.username;
+                document.getElementById('profileType').textContent = user.type.toUpperCase();
+                document.getElementById('profileCreated').textContent = new Date(user.created).toLocaleString();
+                document.getElementById('accountTypeBadge').textContent = user.type.toUpperCase();
+                document.getElementById('accountTypeBadge').className = 'stat-value ' + user.type;
+                document.getElementById('currentAccountType').textContent = user.type.toUpperCase();
+                
+                // Set badge color based on account type
+                const badge = document.getElementById('accountTypeBadge');
+                if (user.type === 'developer') {
+                    badge.style.background = 'rgba(0, 255, 65, 0.2)';
+                    badge.style.color = '#00ff41';
+                } else if (user.type === 'special') {
+                    badge.style.background = 'rgba(143, 0, 143, 0.2)';
+                    badge.style.color = '#ff00ff';
+                } else {
+                    badge.style.background = 'rgba(0, 143, 17, 0.2)';
+                    badge.style.color = '#00ff41';
+                }
+                
+                if (user.expires === Number.MAX_SAFE_INTEGER) {
+                    document.getElementById('profileExpires').textContent = '∞ NEVER EXPIRES';
+                    document.getElementById('profileRemaining').textContent = '∞ INFINITE';
+                    document.getElementById('profileRemaining').className = 'profile-value countdown infinite';
+                } else {
+                    document.getElementById('profileExpires').textContent = new Date(user.expires).toLocaleString();
+                    updateRemainingTime();
+                    setInterval(updateRemainingTime, 60000);
+                }
+                
+                // Update permissions display
+                updatePermissionsUI(user.type);
+                
+                // Load account list for developer
+                if (user.type === 'developer') {
+                    DDOSEngine.loadAccountList();
+                }
+            }
+        }
+        
+        function updatePermissionsUI(userType) {
+            const permissions = DDOSEngine.getUserPermissions(userType);
+            
+            // Update attack types dropdown
+            const attackSelect = document.getElementById('attackTypeSelect');
+            if (attackSelect) {
+                attackSelect.innerHTML = '';
+                
+                const attackLabels = {
+                    '500': 'Normal (500 RPS) - HTTP Flood',
+                    '1000': 'Medium (1000 RPS) - WS + HTTP',
+                    '5000': 'Hard (5000 RPS) - Multi-Vector',
+                    '100000': 'Extreme (100000 RPS) - Botnet',
+                    '500000': 'Dev (500000 RPS) - Full Scale'
+                };
+                
+                permissions.attacks.forEach(attackType => {
+                    const option = document.createElement('option');
+                    option.value = attackType;
+                    option.textContent = attackLabels[attackType] || `Attack (${attackType} RPS)`;
+                    attackSelect.appendChild(option);
+                });
+                
+                // Set default to first available attack
+                if (permissions.attacks.length > 0) {
+                    attackSelect.value = permissions.attacks[0];
+                }
+                
+                // Update available types text
+                let typeText = '';
+                if (userType === 'guest') {
+                    typeText = 'Normal, Medium, Hard only';
+                } else if (userType === 'special') {
+                    typeText = 'Normal, Medium, Hard, Extreme';
+                } else if (userType === 'developer') {
+                    typeText = 'All attack types';
+                }
+                document.getElementById('availableTypes').textContent = typeText;
+            }
+            
+            // Update duration limits
+            const durationInput = document.getElementById('durationInput');
+            if (durationInput) {
+                durationInput.max = permissions.maxDuration;
+                if (parseInt(durationInput.value) > permissions.maxDuration) {
+                    durationInput.value = permissions.maxDuration;
+                }
+                document.getElementById('maxDuration').textContent = permissions.maxDuration;
+            }
+            
+            // Update attack limit badge
+            const badge = document.getElementById('attackLimitBadge');
+            if (badge) {
+                if (userType === 'guest') {
+                    badge.textContent = 'GUEST: 500-5000 RPS, 5min max';
+                    badge.className = 'limit-badge guest';
+                } else if (userType === 'special') {
+                    badge.textContent = 'SPECIAL: 500-100k RPS, 10min max';
+                    badge.className = 'limit-badge special';
+                } else if (userType === 'developer') {
+                    badge.textContent = 'DEVELOPER: All attacks, 60min max';
+                    badge.className = 'limit-badge developer';
+                }
+            }
+            
+            // Update permissions text in profile
+            document.getElementById('profilePermissions').textContent = 
+                `${permissions.attacks.length} attack types, ${permissions.maxDuration}s max duration`;
+            
+            // Handle developer panel visibility
+            const devSection = document.getElementById('devSection');
+            const devPanelContent = document.getElementById('devPanelContent');
+            const devAccessMessage = document.getElementById('devAccessMessage');
+            const devAccessStatus = document.getElementById('devAccessStatus');
+            
+            if (userType === 'developer') {
+                // Show developer panel
+                devPanelContent.innerHTML = DDOSEngine.getDevPanelContent();
+                devPanelContent.style.display = 'block';
+                devAccessMessage.style.display = 'none';
+                devAccessStatus.textContent = 'ACTIVE';
+                devAccessStatus.className = 'access-status active';
+                
+                // Load account list
+                DDOSEngine.loadAccountList();
+            } else {
+                // Hide developer panel, show access denied message
+                devPanelContent.style.display = 'none';
+                devAccessMessage.style.display = 'block';
+                devAccessStatus.textContent = 'RESTRICTED';
+                devAccessStatus.className = 'access-status restricted';
+            }
+        }
+        
+        function updateRemainingTime() {
+            const user = DDOSEngine.getCurrentUser();
+            if (user && user.expires !== Number.MAX_SAFE_INTEGER) {
+                const remaining = DDOSEngine.getRemainingTime(user.username);
+                document.getElementById('profileRemaining').textContent = remaining;
+            }
+        }
+        
+        function setupNavigation() {
+            const user = DDOSEngine.getCurrentUser();
+            const userType = user ? user.type : 'guest';
+            const permissions = DDOSEngine.getUserPermissions(userType);
+            
+            // Show/hide menu items based on permissions
+            document.querySelectorAll('.nav-menu li').forEach(item => {
+                const section = item.getAttribute('data-section');
+                
+                // Check if this feature is allowed for user type
+                if (permissions.features.includes(section)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+                
+                // Add click handler for visible items
+                if (item.style.display !== 'none') {
+                    item.addEventListener('click', function() {
+                        const section = this.getAttribute('data-section');
+                        
+                        // Update active states
+                        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                        document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
+                        
+                        // Show selected section
+                        document.getElementById(section + 'Section').classList.add('active');
+                        this.classList.add('active');
+                        document.getElementById('breadcrumb').textContent = `/ ${this.textContent.trim()}`;
+                    });
+                }
+            });
+            
+            // Mobile menu toggle
+            document.getElementById('menuToggle').addEventListener('click', function() {
+                document.querySelector('.sidebar').classList.toggle('collapsed');
+            });
+        }
+        
+        function setupEventListeners() {
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                if (confirm('Terminate session?')) {
+                    sessionStorage.removeItem('ddos_user');
+                    sessionStorage.removeItem('ddos_user_type');
+                    window.location.href = 'index.html';
+                }
+            });
+            
+            // DDoS Attack
+            document.getElementById('startAttack').addEventListener('click', function() {
+                const target = document.getElementById('targetInput').value.trim();
+                const port = document.getElementById('portInput').value;
+                const type = document.getElementById('attackTypeSelect').value;
+                const duration = document.getElementById('durationInput').value;
+                
+                if (!target) {
+                    DDOSEngine.logToGlobal('[ERROR] Target is required');
+                    alert('Please enter a target');
+                    return;
+                }
+                
+                const user = DDOSEngine.getCurrentUser();
+                if (!user) return;
+                
+                // Check permission
+                const allowed = DDOSEngine.checkAttackPermission(user.type, type);
+                if (!allowed) {
+                    alert(`ACCESS DENIED: ${user.type.toUpperCase()} accounts cannot use ${type} RPS attack`);
+                    return;
+                }
+                
+                if (confirm(`LAUNCH REAL DDoS ATTACK?\n\nTarget: ${target}:${port}\nType: ${type} RPS\nDuration: ${duration} seconds\n\nWARNING: Your IP will be visible to target!`)) {
+                    DDOSEngine.startDDoSAttack(target, port, type, duration);
+                    this.disabled = true;
+                    document.getElementById('stopAttack').disabled = false;
+                    
+                    // Auto re-enable after duration
+                    setTimeout(() => {
+                        document.getElementById('startAttack').disabled = false;
+                        document.getElementById('stopAttack').disabled = true;
+                    }, duration * 1000);
+                }
+            });
+            
+            document.getElementById('stopAttack').addEventListener('click', function() {
+                DDOSEngine.stopDDoSAttack();
+                this.disabled = true;
+                document.getElementById('startAttack').disabled = false;
+            });
+            
+            // NGL Spam
+            document.getElementById('startSpam').addEventListener('click', function() {
+                const username = document.getElementById('nglUsername').value.trim();
+                const message = document.getElementById('nglMessage').value.trim();
+                const count = document.getElementById('spamCount').value;
+                const delay = document.getElementById('spamDelay').value;
+                const sender = document.getElementById('senderName').value;
+                
+                if (!username || !message) {
+                    alert('Username and message are required');
+                    return;
+                }
+                
+                if (confirm(`Send ${count} REAL messages to ngl.link/${username}?\n\nMessage preview: ${message.substring(0, 100)}${message.length > 100 ? '...' : ''}`)) {
+                    DDOSEngine.startNGLSpam(username, message, parseInt(count), parseInt(delay), sender);
+                }
+            });
+            
+            // IP Scanner
+            document.getElementById('startScan').addEventListener('click', function() {
+                const target = document.getElementById('scanTarget').value.trim();
+                const ports = document.getElementById('portsToScan').value;
+                const timeout = document.getElementById('scanTimeout').value;
+                
+                if (!target) {
+                    alert('Target is required');
+                    return;
+                }
+                
+                DDOSEngine.startIPScan(target, ports, parseInt(timeout));
+            });
+            
+            // Password change
+            document.getElementById('changePassBtn').addEventListener('click', function() {
+                const current = document.getElementById('currentPass').value;
+                const newPass = document.getElementById('newPass').value;
+                const confirmPass = document.getElementById('confirmPass').value;
+                
+                if (!current || !newPass || !confirmPass) {
+                    alert('All fields are required');
+                    return;
+                }
+                
+                if (newPass !== confirmPass) {
+                    alert('New passwords do not match');
+                    return;
+                }
+                
+                if (DDOSEngine.changePassword(current, newPass)) {
+                    alert('Password changed successfully');
+                    document.getElementById('currentPass').value = '';
+                    document.getElementById('newPass').value = '';
+                    document.getElementById('confirmPass').value = '';
+                } else {
+                    alert('Current password is incorrect');
+                }
+            });
+            
+            // Clear log
+            document.getElementById('clearLog').addEventListener('click', function() {
+                document.getElementById('globalLog').innerHTML = 
+                    '<div class="log-entry">[SYSTEM] Log cleared at ' + new Date().toLocaleTimeString() + '</div>';
+            });
+        }
+        
+        function updateSystemStatus() {
+            const user = DDOSEngine.getCurrentUser();
+            
+            if (!user) {
+                document.getElementById('systemStatus').textContent = 'NO USER';
+                document.getElementById('systemStatus').className = 'stat-value error';
+            } else if (user.expires !== Number.MAX_SAFE_INTEGER && Date.now() > user.expires) {
+                document.getElementById('systemStatus').textContent = 'EXPIRED';
+                document.getElementById('systemStatus').className = 'stat-value error';
+            } else {
+                document.getElementById('systemStatus').textContent = 'ACTIVE';
+                document.getElementById('systemStatus').className = 'stat-value active';
+            }
+        }
+    </script>
+</body>
+</html>
