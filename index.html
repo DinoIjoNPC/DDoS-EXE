@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DDoS-EXE Protocol :: Authentication</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Prevent Chrome autofill background */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #0a0a0a inset !important;
+            -webkit-text-fill-color: #00ff41 !important;
+            caret-color: #00ff41 !important;
+        }
+    </style>
+</head>
+<body class="login-body">
+    <div class="matrix-bg"></div>
+    <div class="login-container">
+        <div class="hacker-header">
+            <i class="fas fa-skull-crossbones"></i>
+            <h1>DDoS-EXE PROTOCOL</h1>
+            <div class="tagline">[UNLIMITED EXECUTION FRAMEWORK]</div>
+        </div>
+        <div class="login-box">
+            <div class="terminal-prompt">
+                <span class="prompt-sign">root@ddos-exe:~#</span> ACCESS REQUEST
+            </div>
+            <!-- Fake form to trick browser autofill -->
+            <form style="display: none;">
+                <input type="text" name="fake-username" autocomplete="off">
+                <input type="password" name="fake-password" autocomplete="off">
+            </form>
+            
+            <form id="loginForm" autocomplete="off">
+                <div class="input-group">
+                    <label><i class="fas fa-user-secret"></i> USERNAME</label>
+                    <input type="text" id="username" required placeholder="Enter cracker ID" 
+                           autocomplete="new-username" 
+                           autocorrect="off" 
+                           autocapitalize="off" 
+                           spellcheck="false">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-key"></i> PASSWORD</label>
+                    <input type="password" id="password" required placeholder="Enter encryption key" 
+                           autocomplete="new-password"
+                           autocorrect="off"
+                           autocapitalize="off"
+                           spellcheck="false">
+                </div>
+                <button type="submit" class="hacker-btn">
+                    <i class="fas fa-terminal"></i> INITIATE SYSTEM
+                </button>
+            </form>
+            <div class="login-footer">
+                <div class="status-led" id="statusLed"></div>
+                <span id="loginStatus">System: Awaiting credentials...</span>
+            </div>
+        </div>
+        <div class="warning-box">
+            <i class="fas fa-radiation"></i> ⚠️ REAL ATTACK SYSTEM: All activities are REAL. Your IP will be exposed. Use VPN/Tor.
+        </div>
+    </div>
+    
+    <script src="ddos-engine.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DDoS-EXE Protocol Login Loaded');
+            
+            // Check if already logged in (persistent session)
+            if (localStorage.getItem('ddos_session_active') === 'true') {
+                const lastUser = localStorage.getItem('ddos_last_user');
+                if (lastUser) {
+                    // Auto-login with stored session
+                    sessionStorage.setItem('ddos_user', lastUser);
+                    sessionStorage.setItem('ddos_user_type', localStorage.getItem('ddos_user_type'));
+                    window.location.href = 'system.html';
+                    return;
+                }
+            }
+            
+            // Clear any pre-filled values
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            
+            // Login form handler
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+                const statusLed = document.getElementById('statusLed');
+                const loginStatus = document.getElementById('loginStatus');
+                
+                // Validate inputs
+                if (!username || !password) {
+                    statusLed.className = 'status-led error';
+                    loginStatus.textContent = 'ERROR: Both fields are required.';
+                    return;
+                }
+                
+                statusLed.className = 'status-led blinking';
+                loginStatus.textContent = 'System: Verifying credentials...';
+                
+                setTimeout(() => {
+                    if (DDOSEngine.authenticate(username, password)) {
+                        statusLed.className = 'status-led active';
+                        loginStatus.textContent = 'Access granted. Redirecting...';
+                        
+                        // Set persistent session
+                        localStorage.setItem('ddos_session_active', 'true');
+                        localStorage.setItem('ddos_last_user', username);
+                        localStorage.setItem('ddos_user_type', DDOSEngine.getCurrentUser().type);
+                        
+                        setTimeout(() => {
+                            window.location.href = 'system.html';
+                        }, 800);
+                    } else {
+                        statusLed.className = 'status-led error';
+                        loginStatus.textContent = 'ERROR: Invalid credentials or expired account.';
+                        
+                        // Clear password field on failed attempt
+                        document.getElementById('password').value = '';
+                    }
+                }, 1200);
+            });
+            
+            // Clear button
+            const clearBtn = document.createElement('button');
+            clearBtn.type = 'button';
+            clearBtn.className = 'hacker-btn small';
+            clearBtn.innerHTML = '<i class="fas fa-times"></i> CLEAR';
+            clearBtn.style.marginTop = '10px';
+            clearBtn.style.width = '100%';
+            clearBtn.style.background = 'rgba(255,0,51,0.2)';
+            clearBtn.style.borderColor = '#ff0033';
+            
+            clearBtn.addEventListener('click', function() {
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                document.getElementById('loginStatus').textContent = 'System: Fields cleared.';
+                document.getElementById('statusLed').className = 'status-led';
+            });
+            
+            document.querySelector('.login-box').appendChild(clearBtn);
+        });
+    </script>
+</body>
+</html>
